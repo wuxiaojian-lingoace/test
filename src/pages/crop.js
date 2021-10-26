@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import 'antd/dist/antd.css';
+import { saveAs } from 'file-saver';
+
 
 const Demo = () => {
   const [fileList, setFileList] = useState([
@@ -14,7 +16,9 @@ const Demo = () => {
   ]);
 
   const onChange = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
+
+    saveAs(newFileList[1].originFileObj, newFileList[1].name);
+
   };
 
   const onPreview = async file => {
@@ -33,9 +37,11 @@ const Demo = () => {
   };
 
   return (
-    <ImgCrop rotate grid={true}>
+    <ImgCrop 
+    aspect={3/4}
+    minZoom={0.5}
+    rotate grid={true}>
       <Upload
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         listType="picture-card"
         fileList={fileList}
         onChange={onChange}

@@ -12,6 +12,7 @@
     "antd": "^3.19.5",
     "antd-img-crop": "^3.16.0",
     "cropperjs": "^1.5.12",
+    "file-saver": "^2.0.5",
     "react": "^16.8.6",
     "react-cropper": "^2.1.8",
     "react-dom": "^16.8.6"

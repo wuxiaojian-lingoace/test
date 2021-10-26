@@ -1,6 +1,7 @@
 import { Upload, Button, Dialog } from '@alifd/next';
 import { Component } from 'react';
 import '@alifd/next/dist/next.css';
+import { saveAs } from 'file-saver';
 
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
@@ -48,13 +49,13 @@ class App extends Component {
     }
 
     state = {
+        file:null,
         src: null,
         visible: false,
         img: null
     };
 
     onSuccess = (value) => {
-        console.log(value);
         this.setState({
             img: value.url
         });
@@ -64,6 +65,7 @@ class App extends Component {
         const reader = new FileReader();
         reader.onload = () => {
             this.setState({
+                file:files[0],
                 src: reader.result,
                 visible: true
             });
@@ -79,12 +81,12 @@ class App extends Component {
 
     onOk = () => {
 
-        const data = this.cropperRef.getCroppedCanvas().toDataURL();
-        const file = dataURL2Blob2File(data, 'test.png');
-
-        // start upload
-        this.uploader.startUpload(file);
-
+        const selectFile =this.state.file;
+        const data = this.cropperRef.getCroppedCanvas({
+            imageSmoothingQuality: 'low',
+        }).toDataURL(selectFile.type);
+        const file = dataURL2Blob2File(data, selectFile.name);
+        saveAs(file, selectFile.name);
         this.setState({
             visible: false
         });
